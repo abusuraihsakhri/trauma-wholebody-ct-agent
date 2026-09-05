@@ -17,7 +17,8 @@ import uuid
 from typing import Dict, Any, List, Optional
 
 
-class Severity(str):
+class Severity:
+    """Alert severity levels for trauma scan sentinel."""
     INFO = "INFO"
     ADVISORY = "ADVISORY"
     WARNING = "WARNING"
