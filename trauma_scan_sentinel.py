@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent
-Multi-agent polytrauma supervisor extracting solid organ lacerations (AAST spleen/liver/kidney grades), pelvic fractures, and active contrast extravasation.
+Synthetic rule-based demonstration; does not process CT images or grade injuries.
 
 Domain: Emergency Radiology
 Author: Dr. Abu Suraih Sakhri
@@ -46,8 +46,8 @@ class Severity:
 class DomainKnowledgeRegistry:
     """Enterprise domain rules, guideline matrices, and evidence benchmarks."""
     SYSTEM_VERSION = "2.0.0-PRO-CLINICAL"
-    ZERO_PHI_COMPLIANCE = True
-    HIPAA_SAFE_HARBOR = "ACTIVE_ON_PREMISES"
+    ZERO_PHI_COMPLIANCE = False
+    HIPAA_SAFE_HARBOR = "NOT_ASSESSED"
 
     @staticmethod
     def audit_security_and_integrity(payload: Dict[str, Any]) -> List[str]:
@@ -92,7 +92,7 @@ class OrganInjuryScalingAgent:
                     severity=Severity.WARNING,
                     title="Primary Metric Threshold Discrepancy",
                     details=f"Primary metric value ({val1:.1f}) exceeded standard clinical baseline.",
-                    recommendation="Perform secondary cross-check and review calibration profile.",
+                    recommendation="Review synthetic input and configured demonstration threshold.",
                 )
             )
         return alerts
@@ -112,7 +112,7 @@ class BlushExtravasationDetectorAgent:
                     severity=Severity.CRITICAL,
                     title="Urgent Consensus Protocol Trigger",
                     details=f"Secondary parameter index ({val2:.1f}) triggered automated supervisory escalation.",
-                    recommendation="Initiate mandatory closed-loop clinical notification protocol.",
+                    recommendation="Review the synthetic priority flag; no clinical escalation is performed.",
                 )
             )
         return alerts
@@ -131,7 +131,7 @@ class InjurySeverityScoreSynthesizerAgent:
                     severity=Severity.ADVISORY,
                     title="Biomarker / Feature Discordance Flag",
                     details=f"Phenotypic discordance noted in observation status ({status_text}).",
-                    recommendation="Reconcile correlative findings with secondary confirmatory testing.",
+                    recommendation="Review the synthetic descriptor; no confirmatory test is prescribed.",
                 )
             )
         return alerts
@@ -179,9 +179,9 @@ class TraumaCoordinator:
         if "summary" in q or "status" in q:
             return f"TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent currently tracking {len(self.case_registry)} cases in local air-gapped memory."
         elif "guidelines" in q or "protocol" in q:
-            return "All sub-agents operate under validated consensus clinical algorithms and CAP/CLSI/NCCN/WHO standards."
+            return "No clinical guidelines or standards are implemented; synthetic rules only."
         else:
-            return f"TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent executive agent online. Continuous supervisory monitoring active across all domain parameters."
+            return f"TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent executive agent online. Local synthetic demonstration only; no patient monitoring."
 
 
 coordinator = TraumaCoordinator()
@@ -194,7 +194,7 @@ def create_app():
 
         app = FastAPI(
             title="TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent",
-            description="Multi-agent polytrauma supervisor extracting solid organ lacerations (AAST spleen/liver/kidney grades), pelvic fractures, and active contrast extravasation.",
+            description="Synthetic rule-based demonstration; does not process CT images or grade injuries.",
             version="1.0.0",
         )
 
