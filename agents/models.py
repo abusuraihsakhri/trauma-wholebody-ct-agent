@@ -35,11 +35,11 @@ def _validate_finite_float(value: float, field_name: str) -> float:
 
 
 class SystemTaskPayload(BaseModel):
-    task_id: str = Field(..., description="Unique task / case identifier")
-    target_identifier: str = Field(..., description="Entity, patient key, or genomic/cryptographic target")
+    task_id: str = Field(..., min_length=1, max_length=128, description="Synthetic task identifier only")
+    target_identifier: str = Field(..., min_length=1, max_length=128, description="Synthetic test target identifier only")
     primary_metric: float = Field(..., description="Primary domain measurement or score")
     secondary_metric: float = Field(default=0.0, description="Secondary kinetic or confidence score")
-    status_descriptor: str = Field(default="NOMINAL", description="Status code or phenotype descriptor")
+    status_descriptor: str = Field(default="NOMINAL", max_length=256, description="Synthetic status descriptor")
     is_critical_flag: bool = Field(default=False, description="Emergency escalation or high priority trigger")
     attributes: Dict[str, Any] = Field(default_factory=dict, description="Metadata key-value pairs")
     timestamp: str = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
@@ -62,7 +62,7 @@ class AgentAlert(BaseModel):
     summary: str
     technical_details: str
     actionable_remediation: str
-    standard_reference: str = "ACR RADS / Fleischner Society / ASPECTS Guidelines"
+    standard_reference: str = "Synthetic demonstration thresholds; no validated clinical standard"
     timestamp: str = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
 
     def to_dict(self) -> Dict[str, Any]:
@@ -80,7 +80,7 @@ class ConsensusDossier(BaseModel):
     total_alerts: int
     critical_alerts_count: int
     alerts: List[AgentAlert]
-    standard_reference: str = "ACR RADS / Fleischner Society / ASPECTS Guidelines"
+    standard_reference: str = "Synthetic demonstration thresholds; no validated clinical standard"
     consensus_summary: str
     audit_hash: str
     timestamp: str = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat())
