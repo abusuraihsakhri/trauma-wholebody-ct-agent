@@ -1,27 +1,36 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "trauma-wholebody-ct-engine"
-version = "2.0.0"
-description = "TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Engine"
+version = "2.0.1"
+description = "Synthetic rule-based trauma CT workflow demonstration; not a diagnostic tool"
 readme = "README.md"
-authors = [{ name = "Dr. Abu Suraih Sakhri", email = "abusuraih@example.com" }]
-license = { text = "MIT" }
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Dr. Abu Suraih Sakhri" }]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
-requires-python = ">=3.9"
-dependencies = []
+dependencies = ["pydantic>=2.0,<3"]
+
+[project.optional-dependencies]
+server = ["fastapi>=0.110,<1", "uvicorn>=0.29,<1"]
+dev = ["pytest>=8,<10", "httpx>=0.27,<1"]
 
 [project.scripts]
 trauma-wholebody-ct-engine = "trauma_wholebody_ct_agent.cli:main"
+trauma-wholebody-ct-agent = "cli:main"
 
 [project.urls]
-Homepage = "https://github.com/abusuraihsakhri/trauma-wholebody-ct-engine"
-Repository = "https://github.com/abusuraihsakhri/trauma-wholebody-ct-engine.git"
+Homepage = "https://github.com/abusuraihsakhri/trauma-wholebody-ct-agent"
+Repository = "https://github.com/abusuraihsakhri/trauma-wholebody-ct-agent"
+
+[tool.setuptools]
+packages = ["agents", "trauma_wholebody_ct_agent"]
+py-modules = ["cli", "enrichment", "simulator", "trauma_scan_sentinel",
+              "trauma_wholebody_ct_agent_app", "trauma_scan_sentinel_app"]
