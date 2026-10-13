@@ -12,7 +12,7 @@ supervisor = SystemSupervisor(model_provider="mock")
 
 app = FastAPI(
     title="Trauma Wholebody Ct Agent API",
-    description="Enterprise Distributed Component Platform (Radiology & Neuroimaging Systems)",
+    description="Synthetic rule-based demonstration. Not for patient care or interpretation of CT images.",
     version="3.0.0-ENTERPRISE",
 )
 
@@ -23,7 +23,7 @@ class ChatRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "HEALTHY", "service": "trauma-wholebody-ct-agent", "domain": "Radiology & Neuroimaging Systems", "standard": "ACR RADS / Fleischner Society / ASPECTS Guidelines", "version": "3.0.0-ENTERPRISE"}
+    return {"status": "HEALTHY", "service": "trauma-wholebody-ct-agent", "domain": "Radiology & Neuroimaging Systems", "standard": "Synthetic demonstration thresholds, not a clinical standard", "version": "3.0.0-ENTERPRISE"}
 
 
 @app.get("/metrics")
