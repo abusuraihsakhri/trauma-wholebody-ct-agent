@@ -1,236 +1,145 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trauma Wholebody Ct Engine — Operations Console</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #090d16;
-            --card: #111827;
-            --border: #1f293d;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.25);
-            --text: #f3f4f6;
-            --text-muted: #9ca3af;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            padding: 2rem;
-            min-height: 100vh;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .header-title h1 { font-size: 1.6rem; font-weight: 700; color: #fff; }
-        .header-title p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem; }
-        .badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: var(--accent-glow);
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 1.5rem;
-        }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .card h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.65rem 0.9rem;
-            background: #0d1322;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: #fff;
-            font-family: inherit;
-            font-size: 0.9rem;
-        }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent); }
-        .btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 0.7rem 1.4rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-        }
-        .btn:hover { background: #2563eb; }
-        .terminal {
-            background: #060911;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: #10b981;
-            height: 380px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-        .metrics-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .metric-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-        }
-        .metric-val { font-size: 1.4rem; font-weight: 700; color: #fff; margin-top: 0.25rem; }
-        .metric-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Local, synthetic-data demonstration of three deterministic rule-based audit triggers.">
+  <title>Trauma Wholebody CT Agent | Rule Demonstrator</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #0c1424; color: #e8eef9; }
+    * { box-sizing: border-box; }
+    body { margin: 0 auto; padding: 24px; max-width: 1120px; line-height: 1.5; }
+    h1 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); }
+    h2 { font-size: 1.1rem; margin-top: 0; }
+    p { color: #b9c9dd; }
+    .notice { padding: 14px 17px; margin: 18px 0 24px; border: 1px solid #f4be62; border-radius: 9px; background: #3b2c1c; color: #fff0d4; }
+    .grid { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(300px, 1fr); gap: 20px; }
+    .panel { padding: 22px; border: 1px solid #33445d; border-radius: 12px; background: #131f33; }
+    label { display: block; margin: 13px 0 4px; font-weight: 600; font-size: .9rem; }
+    input[type="text"], input[type="number"] { width: 100%; padding: 10px 12px; background: #0b1424; border: 1px solid #60738e; border-radius: 6px; color: #fff; font: inherit; }
+    input:focus-visible, button:focus-visible { outline: 3px solid #90c2ff; outline-offset: 2px; }
+    .check { display: flex; gap: 10px; align-items: center; margin: 14px 0; }
+    .check input { width: 18px; height: 18px; }
+    button { padding: 11px 15px; border: 0; border-radius: 7px; color: #fff; background: #2864d2; font: inherit; font-weight: 650; cursor: pointer; }
+    button:hover { background: #3577ef; }
+    button.secondary { background: #364963; margin-left: 6px; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .results { white-space: pre-wrap; overflow-wrap: anywhere; font: .85rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; max-height: 470px; overflow: auto; padding: 14px; background: #091221; border: 1px solid #33445d; border-radius: 7px; }
+    .small { font-size: .85rem; }
+    details { margin-top: 24px; padding: 16px; border: 1px solid #33445d; border-radius: 8px; }
+    summary { cursor: pointer; font-weight: 600; }
+    .error { color: #ffbdbd; }
+    footer { margin-top: 28px; color: #a8bbd3; font-size: .85rem; }
+    a { color: #aaccff; }
+    @media (max-width: 760px) { body { padding: 16px; } .grid { grid-template-columns: 1fr; } .panel { padding: 16px; } }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Trauma Wholebody CT Agent</h1>
+    <p>Deterministic rule demonstrator · runs entirely in your browser</p>
+  </header>
+  <div class="notice" role="note"><strong>Research / software demonstration only.</strong> This application does not analyze CT images, detect injuries, assign AAST grades, validate clinical guidelines, or support medical decisions. Use invented test cases only; never enter patient information.</div>
+  <main class="grid">
+    <section class="panel" aria-labelledby="input-heading">
+      <h2 id="input-heading">Synthetic test inputs</h2>
+      <form id="audit-form">
+        <label for="task_id">Test case ID</label>
+        <input id="task_id" name="task_id" type="text" maxlength="128" pattern="[A-Za-z0-9_-]+" value="DEMO-001" required>
+        <label for="target_id">Synthetic target identifier</label>
+        <input id="target_id" name="target_id" type="text" maxlength="128" pattern="[A-Za-z0-9_-]+" value="TEST-01" required>
+        <label for="primary_metric">Primary demonstration metric</label>
+        <input id="primary_metric" name="primary_metric" type="number" step="any" min="-1000000000" max="1000000000" value="29.4" required>
+        <label for="secondary_metric">Secondary demonstration metric</label>
+        <input id="secondary_metric" name="secondary_metric" type="number" step="any" min="-1000000000" max="1000000000" value="14.8" required>
+        <label for="status_descriptor">Synthetic status descriptor</label>
+        <input id="status_descriptor" name="status_descriptor" type="text" maxlength="256" value="DISCORDANT_ANOMALY">
+        <label class="check" for="is_critical"><input id="is_critical" name="is_critical" type="checkbox"> Synthetic critical-priority flag</label>
+        <button type="submit">Evaluate example</button><button type="button" class="secondary" id="reset">Reset</button>
+      </form>
+    </section>
+    <section class="panel" aria-labelledby="result-heading">
+      <h2 id="result-heading">Local demonstration output</h2>
+      <p class="small" id="counter">Examples evaluated: 0</p>
+      <p class="error" id="error" role="alert" hidden></p>
+      <pre class="results" id="output" aria-live="polite">Enter synthetic values and select “Evaluate example”. No data is sent to a server.</pre>
+      <button id="download" type="button" disabled>Download JSON</button>
+    </section>
+  </main>
+  <details><summary>Rule definitions and limitations</summary>
+    <p>The demonstrator reproduces the three synthetic triggers in <code>agents/workers.py</code>: primary metric &gt; 25; secondary metric &gt; 12 or critical flag; and descriptor containing DISCORDANT, ANOMALY, MUTANT, VIOLATION, FAIL, or REJECT (case-insensitive). These numerical limits are arbitrary demonstration settings, not diagnostic cutoffs or AAST Organ Injury Scale criteria.</p>
+    <p>Results remain in this browser session. The tool has no external data requests, persistent storage, image upload, CT processing, or live patient monitoring. The separately hosted Python API is not called.</p>
+  </details>
+  <footer>Source: <a href="https://github.com/abusuraihsakhri/trauma-wholebody-ct-agent">GitHub repository</a> · No patient data permitted.</footer>
+  <script>
+    "use strict";
+    const form = document.getElementById("audit-form");
+    const output = document.getElementById("output");
+    const error = document.getElementById("error");
+    const download = document.getElementById("download");
+    let result = null;
+    let count = 0;
 
-    <div class="header">
-        <div class="header-title">
-            <h1>Trauma Wholebody Ct Engine</h1>
-            <p>Domain: Clinical & Cryptographic AI | Standard: CAP / CLSI / NIST Standards | LabMind-Atlas Architecture</p>
-        </div>
-        <div>
-            <span class="badge">Air-Gapped Active</span>
-            <span class="badge" style="background: rgba(16,185,129,0.2); color: #10b981; border-color: #10b981;">Zero-PHI Guard Active</span>
-        </div>
-    </div>
-
-    <div class="metrics-bar">
-        <div class="metric-box">
-            <div class="metric-label">System Status</div>
-            <div class="metric-val" style="color: var(--success);" id="m-status">OPTIMAL</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-label">Tasks Processed</div>
-            <div class="metric-val" id="m-tasks">142</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-label">Audit Blocks Signed</div>
-            <div class="metric-val" id="m-audit">142</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-label">PHI Interceptions</div>
-            <div class="metric-val" style="color: var(--accent);" id="m-phi">0</div>
-        </div>
-    </div>
-
-    <div class="grid">
-        <div class="card">
-            <h2>⚙️ Dispatch Distributed Component Audit</h2>
-            <div class="form-group">
-                <label>Task / Sample ID</label>
-                <input type="text" id="task_id" value="TASK-2026-LIVE-01">
-            </div>
-            <div class="form-group">
-                <label>Target Identifier</label>
-                <input type="text" id="target_id" value="SPECIMEN-ALPHA-77">
-            </div>
-            <div class="form-group">
-                <label>Primary Measurement / Value</label>
-                <input type="number" id="primary_metric" value="29.4" step="0.1">
-            </div>
-            <div class="form-group">
-                <label>Secondary Metric / Kinetic Index</label>
-                <input type="number" id="secondary_metric" value="14.8" step="0.1">
-            </div>
-            <div class="form-group">
-                <label>Status / Phenotype Descriptor</label>
-                <input type="text" id="status_descriptor" value="DISCORDANT_ANOMALY">
-            </div>
-            <div class="form-group">
-                <label><input type="checkbox" id="is_critical" checked> Trigger Emergency / Critical Flag</label>
-            </div>
-            <button class="btn" onclick="runAudit()">Execute Distributed Component Audit</button>
-        </div>
-
-        <div class="card">
-            <h2>📊 Real-Time Consensus Dossier & Audit Log</h2>
-            <div class="terminal" id="outputConsole">// Trauma Wholebody Ct Engine Operations Console Ready
-// Connection established with Air-Gapped Supervisor
-// Cryptographic HMAC-SHA256 audit ledger loaded.
-// Ready for live task payload dispatch...</div>
-        </div>
-    </div>
-
-    <script>
-        async function runAudit() {
-            const consoleEl = document.getElementById('outputConsole');
-            consoleEl.innerText = "// Dispatching task across specialized workers...
-// Invoking InvariantQCWorker, SafetyEscalationWorker, ProtocolWorker...";
-
-            const payload = {
-                task_id: document.getElementById('task_id').value,
-                target_identifier: document.getElementById('target_id').value,
-                primary_metric: parseFloat(document.getElementById('primary_metric').value),
-                secondary_metric: parseFloat(document.getElementById('secondary_metric').value),
-                status_descriptor: document.getElementById('status_descriptor').value,
-                is_critical_flag: document.getElementById('is_critical').checked
-            };
-
-            try {
-                const res = await fetch('/api/audit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                consoleEl.innerText = JSON.stringify(data, null, 2);
-                document.getElementById('m-tasks').innerText = parseInt(document.getElementById('m-tasks').innerText) + 1;
-                document.getElementById('m-audit').innerText = parseInt(document.getElementById('m-audit').innerText) + 1;
-            } catch (err) {
-                consoleEl.innerText = "// Offline / Simulation Output:\n" + JSON.stringify({
-                    dossier_id: "DOSSIER-SIM-" + Math.floor(Math.random()*10000),
-                    system: "trauma-wholebody-ct-engine",
-                    domain: "Clinical & Cryptographic AI",
-                    task_id: payload.task_id,
-                    overall_urgency: payload.is_critical_flag ? "CRITICAL_STAT_PANIC" : "ELEVATED_RISK",
-                    integrity_status: "DISCORDANT_ANOMALY",
-                    alerts: [
-                        { worker: "InvariantQCWorker", alert: "Primary metric exceeds upper reference bound" },
-                        { worker: "SafetyEscalationWorker", alert: "Critical emergency interlock flag active" }
-                    ],
-                    audit_hash: "HMAC_SHA256_e83f9a72b941d6c381f9"
-                }, null, 2);
-            }
-        }
-    </script>
+    function evaluate(input) {
+      const alerts = [];
+      if (input.primary_metric > 25) {
+        alerts.push({ origin_worker: "InvariantQCWorker", urgency: "ELEVATED_RISK",
+          summary: "Primary Metric Threshold Exceeded",
+          technical_details: "Synthetic primary value exceeded demonstration limit (25)." });
+      }
+      if (input.is_critical_flag || input.secondary_metric > 12) {
+        alerts.push({ origin_worker: "SafetyEscalationWorker",
+          urgency: input.is_critical_flag ? "CRITICAL_STAT_PANIC" : "ELEVATED_RISK",
+          summary: "Synthetic Priority Flag Triggered",
+          technical_details: "Critical flag or secondary demonstration limit (12) triggered." });
+      }
+      if (["DISCORDANT", "ANOMALY", "MUTANT", "VIOLATION", "FAIL", "REJECT"].some(
+        word => input.status_descriptor.toUpperCase().includes(word))) {
+        alerts.push({ origin_worker: "ProtocolConformanceWorker", urgency: "ELEVATED_RISK",
+          summary: "Protocol Conformance Discordance Detected",
+          technical_details: "Synthetic descriptor matched a demonstration keyword." });
+      }
+      const critical = alerts.filter(a => a.urgency === "CRITICAL_STAT_PANIC").length;
+      const elevated = alerts.some(a => a.urgency === "ELEVATED_RISK");
+      return { demonstration_only: true, ...input,
+        overall_urgency: critical ? "CRITICAL_STAT_PANIC" : elevated ? "ELEVATED_RISK" : "ROUTINE",
+        integrity_status: critical ? "RECALIBRATION_REQUIRED" : elevated ? "DISCORDANT_ANOMALY" : "VALIDATED_OPTIMAL",
+        total_alerts: alerts.length, critical_alerts_count: critical, alerts };
+    }
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      error.hidden = true;
+      const primary = Number(form.elements.primary_metric.value);
+      const secondary = Number(form.elements.secondary_metric.value);
+      if (!form.reportValidity() || !Number.isFinite(primary) || !Number.isFinite(secondary) ||
+          Math.abs(primary) > 1e9 || Math.abs(secondary) > 1e9) {
+        error.textContent = "Enter valid finite numeric values within ±1,000,000,000.";
+        error.hidden = false;
+        return;
+      }
+      result = evaluate({
+        task_id: form.elements.task_id.value, target_identifier: form.elements.target_id.value,
+        primary_metric: primary, secondary_metric: secondary,
+        status_descriptor: form.elements.status_descriptor.value,
+        is_critical_flag: form.elements.is_critical.checked
+      });
+      output.textContent = JSON.stringify(result, null, 2);
+      count += 1;
+      document.getElementById("counter").textContent = "Examples evaluated: " + count;
+      download.disabled = false;
+    });
+    document.getElementById("reset").addEventListener("click", () => {
+      form.reset(); result = null; download.disabled = true; error.hidden = true;
+      output.textContent = "Enter synthetic values and select “Evaluate example”.";
+    });
+    download.addEventListener("click", () => {
+      if (!result) return;
+      const blob = new Blob([JSON.stringify(result, null, 2) + "\n"], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url; link.download = "synthetic-audit.json"; link.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
 </body>
 </html>
