@@ -93,7 +93,7 @@ class TraumaCoordinator:
             "stat_critical_alerts": stat_count,
             "warning_alerts": warn_count,
             "alerts": [a.to_dict() for a in all_alerts],
-            "guideline_standard": "AAST Organ Injury Scaling (OIS) 2018",
+            "guideline_standard": "Synthetic demonstration rules; no validated clinical scale",
             "consensus_summary": f"Multi-agent supervision completed across 3 sub-agents with status [{status.value}].",
         }
 
@@ -105,6 +105,6 @@ class TraumaCoordinator:
         if "status" in q or "summary" in q:
             return f"TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent currently tracking {len(self.case_registry)} cases in on-premises memory."
         elif "guideline" in q or "standard" in q:
-            return "Active clinical surveillance operates under AAST Organ Injury Scaling (OIS) 2018 validated protocols."
+            return "No clinical guideline is implemented. These are synthetic demonstration thresholds."
         else:
-            return f"TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent executive agent online. Zero-PHI air-gapped monitoring active."
+            return f"TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent executive agent online. Synthetic local demonstration only; do not enter patient information."

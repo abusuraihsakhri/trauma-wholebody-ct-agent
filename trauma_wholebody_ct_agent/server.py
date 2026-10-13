@@ -4,17 +4,18 @@ FastAPI REST Application & Webhooks for TraumaScan Sentinel: Pan-Scan Whole-Body
 from typing import Dict, Any, Optional
 from .models import ClinicalCasePayload
 from .agents import TraumaCoordinator
+from agents.base import SecurityException
 
 coordinator = TraumaCoordinator()
 
 def create_app():
     try:
-        from fastapi import FastAPI
+        from fastapi import FastAPI, HTTPException
         from pydantic import BaseModel
 
         app = FastAPI(
             title="TraumaScan Sentinel: Pan-Scan Whole-Body CT Injury Severity Scoring Agent",
-            description="Multi-agent polytrauma supervisor extracting solid organ lacerations (AAST spleen/liver/kidney grades), pelvic fractures, and active contrast extravasation.",
+            description="Synthetic rule-based demonstration only; does not process CT images or score injuries.",
             version="2.0.0-PRO",
         )
 
@@ -37,16 +38,19 @@ def create_app():
 
         @app.post("/api/audit")
         def api_audit(req: AuditRequest):
-            payload = ClinicalCasePayload(
-                case_id=req.case_id,
-                patient_synthetic_id=req.patient_synthetic_id,
-                primary_metric=req.primary_metric,
-                secondary_metric=req.secondary_metric,
-                status_flag=req.status_flag,
-                is_stat=req.is_stat,
-                clinical_notes=req.clinical_notes,
-                biomarkers=req.biomarkers,
-            )
+            try:
+                payload = ClinicalCasePayload(
+                    case_id=req.case_id,
+                    patient_synthetic_id=req.patient_synthetic_id,
+                    primary_metric=req.primary_metric,
+                    secondary_metric=req.secondary_metric,
+                    status_flag=req.status_flag,
+                    is_stat=req.is_stat,
+                    clinical_notes=req.clinical_notes,
+                    biomarkers=req.biomarkers,
+                )
+            except (ValueError, SecurityException):
+                raise HTTPException(status_code=422, detail="Invalid synthetic demonstration payload")
             return coordinator.process_case(payload)
 
         @app.post("/api/chat")
