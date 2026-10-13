@@ -11,7 +11,7 @@ class MockLLM:
 
     def invoke(self, prompt: str) -> str:
         PHIGuard.assert_no_phi(prompt)
-        return f"[{self.system_name} Deterministic Verification Engine]: Clinical & scientific analysis verified for query: '{prompt[:60]}...'. Parameters evaluated under ACR RADS / Fleischner Society / ASPECTS Guidelines."
+        return f"[{self.system_name} Deterministic Verification Engine]: Synthetic demonstration response (not validated clinical reasoning) for query: '{prompt[:60]}...'. No clinical guideline interpretation or external LLM inference performed."
 
 
 class LLMFactory:
